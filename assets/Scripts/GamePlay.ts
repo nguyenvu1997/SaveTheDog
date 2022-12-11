@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Prefab, instantiate, Label, Scheduler, Vec3, RigidBody, RigidBody2D, Graphics } from 'cc';
 import { OwlController } from './OwlController';
+import { PopupLose } from './PopupLose';
 import { PopupWin } from './PopupWin';
 const { ccclass, property } = _decorator;
 
@@ -17,12 +18,16 @@ export class GamePlay extends Component {
     private time: Node
     @property (Node)
     private popupWin: Node
+    @property (Node)
+    private popupLose: Node
 
     private currentLevel: number = 1
     private spawnSchedule: Function
     private countdownSchedule: Function
 
     private listOwls = []
+
+    public isGameRunning: boolean
 
     private dataLevel = {
         1: {
@@ -42,6 +47,12 @@ export class GamePlay extends Component {
         }
     }
 
+    public onLoad(): void{
+        this.isGameRunning = true
+        this.dog.active = false
+        this.hive.active = false
+    }
+
     public loadDataLevel(): void{
         const dogPosition = this.dataLevel[this.currentLevel].dogPosition
         const hivePosition = this.dataLevel[this.currentLevel].hivePosition
@@ -50,6 +61,8 @@ export class GamePlay extends Component {
         const graphic = this.drawing.getComponent(Graphics)
 
         dogRigidBody.gravityScale = 0
+        this.dog.angle = 0
+        this.isGameRunning = false
 
         graphic.clear()
 
@@ -57,6 +70,12 @@ export class GamePlay extends Component {
 
         this.dog.setPosition(dogPosition)
         this.hive.setPosition(hivePosition)
+    }
+
+    public startGame(): void{
+        this.isGameRunning = false
+        this.dog.active = true
+        this.hive.active = true
     }
 
     private resetListOwl(): void{
@@ -68,6 +87,8 @@ export class GamePlay extends Component {
     }
 
     public countdownTimer(): void{
+        this.isGameRunning = true
+
         const label = this.time.getComponent(Label)
         let time = this.dataLevel[this.currentLevel].time
 
@@ -83,6 +104,12 @@ export class GamePlay extends Component {
         }, 1)
     }
 
+    public showPopupLose(): void{
+        this.unscheduleAllCallbacks()
+
+        this.popupLose.getComponent(PopupLose).showPopup()
+    }
+
     public setDogGravity(): void{
         const dogRigidBody = this.dog.getComponent(RigidBody2D)
         dogRigidBody.gravityScale = 10
@@ -95,7 +122,7 @@ export class GamePlay extends Component {
 
             this.listOwls.push(owl)
 
-            owl.parent = this.node.parent
+            owl.parent = this.node
 
             owl.setPosition(this.hive.getPosition())
 

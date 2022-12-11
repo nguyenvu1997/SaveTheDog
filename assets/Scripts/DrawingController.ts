@@ -49,6 +49,7 @@ export class DrawingController extends Component {
 
             game.countdownTimer()
             game.spawnOwls()
+            game.setDogGravity()
         }, this)
     }
 }

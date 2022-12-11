@@ -11,6 +11,7 @@ export class ButtonController extends Component {
         this.button.on('click', function() {
             this.button.active = false
             const game = this.node.parent.getComponent('GamePlay')
+            game.loadDataLevel()
         }, this);
     }
 }

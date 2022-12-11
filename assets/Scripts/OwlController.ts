@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, tween } from 'cc';
+import { _decorator, Component, Node, Vec3, tween, Collider2D, IPhysics2DContact, PhysicsSystem2D, Contact2DType } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('OwlController')
@@ -10,12 +10,16 @@ export class OwlController extends Component {
     private currentPosition = new Vec3()
     private targetPosition = new Vec3()
 
-    start() {
-        this.speed = 10
+    private onBeginContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+        console.log('onBeginContact', otherCollider.node.name)
     }
 
-    update(deltaTime: number) {
-        //
+    public start() {
+        let collider = this.getComponent(Collider2D)
+
+        if (collider) {
+            collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this)
+        }
     }
 
     public setTargetPosition(dogPosition: Vec3, owl: Node): void{
@@ -24,7 +28,7 @@ export class OwlController extends Component {
         .to(tweenDuration, { position: new Vec3(dogPosition) }, {
             easing: "linear",
         })
-        .start();
+        .start()
     }
 }
 

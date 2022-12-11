@@ -267,7 +267,6 @@
     "owl": {
       "__id__": 1
     },
-    "dog": null,
     "_id": ""
   },
   {
@@ -285,10 +284,10 @@
     "__prefab": {
       "__id__": 15
     },
-    "enabledContactListener": false,
+    "enabledContactListener": true,
     "bullet": false,
     "awakeOnLoad": true,
-    "_group": 1,
+    "_group": 8,
     "_type": 2,
     "_allowSleep": true,
     "_gravityScale": 0,

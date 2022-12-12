@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, Label, Scheduler, Vec3, RigidBody, RigidBody2D, Graphics } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, Label, Scheduler, Vec3, RigidBody, RigidBody2D, Graphics, SpriteRenderer, BoxCollider2D } from 'cc';
 import { OwlController } from './OwlController';
 import { PopupLose } from './PopupLose';
 import { PopupWin } from './PopupWin';

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, NodeEventType, Graphics, Vec2, UITransform, PolygonCollider2D } from 'cc';
+import { _decorator, Component, Node, PhysicsSystem2D, EPhysics2DDrawFlags, NodeEventType, Graphics, Vec2, UITransform, PolygonCollider2D, RigidBody2D, BoxCollider2D, ERigidBody2DType } from 'cc';
 import { GamePlay } from './GamePlay';
 const { ccclass, property } = _decorator;
 
@@ -16,6 +16,9 @@ export class DrawingController extends Component {
                                                     EPhysics2DDrawFlags.Joint |
                                                     EPhysics2DDrawFlags.Shape
 
+
+        // PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.None
+
         const game = this.node.parent.getComponent(GamePlay)
 
         this.node.on(NodeEventType.TOUCH_START, function(event) {
@@ -30,7 +33,6 @@ export class DrawingController extends Component {
             const polygonCollider = this.drawing.getComponent(PolygonCollider2D)
 
             polygonCollider.points = []
-
             polygonCollider.apply()
 
             const graphic = this.drawing.getComponent(Graphics);
@@ -47,13 +49,10 @@ export class DrawingController extends Component {
 
         this.node.on(NodeEventType.TOUCH_END, function() {
             if(game.isGameRunning) return
-            
+
             // const polygonCollider = this.drawing.getComponent(PolygonCollider2D)
-
             // polygonCollider.points = this.pointsCollider
-
             // polygonCollider.apply()
-
 
             game.countdownTimer()
             game.spawnOwls()

@@ -43,7 +43,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": -2.573,
       "z": 0
     },
     "_lrot": {
@@ -236,17 +236,17 @@
       "__id__": 11
     },
     "tag": 0,
-    "_group": 1,
-    "_density": 1,
+    "_group": 8,
+    "_density": 0.1,
     "_sensor": false,
-    "_friction": 0.2,
-    "_restitution": 0,
+    "_friction": 0.1,
+    "_restitution": 1,
     "_offset": {
       "__type__": "cc.Vec2",
       "x": 0.4,
-      "y": -15.9
+      "y": -2.200000000000001
     },
-    "_radius": 65.4,
+    "_radius": 64,
     "_id": ""
   },
   {
@@ -267,7 +267,6 @@
     "owl": {
       "__id__": 1
     },
-    "popupLose": null,
     "_id": ""
   },
   {
@@ -296,8 +295,8 @@
     "_angularDamping": 0,
     "_linearVelocity": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 5,
+      "y": 5
     },
     "_angularVelocity": 0,
     "_fixedRotation": false,

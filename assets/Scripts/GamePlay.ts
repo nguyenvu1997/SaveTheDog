@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, Label, Scheduler, Vec3, RigidBody, RigidBody2D, Graphics, SpriteRenderer, BoxCollider2D } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, Label, Scheduler, Vec3, RigidBody, RigidBody2D, Graphics, SpriteRenderer, BoxCollider2D, Vec2, PolygonCollider2D } from 'cc';
 import { OwlController } from './OwlController';
 import { PopupLose } from './PopupLose';
 import { PopupWin } from './PopupWin';
@@ -128,7 +128,7 @@ export class GamePlay extends Component {
 
             const owlController = owl.getComponent(OwlController)
 
-            owlController.setTargetPosition(this.dog.getPosition(), owl)
+            owlController.setTargetPosition(this.dog.getPosition())
         }, 1)
     }
 }

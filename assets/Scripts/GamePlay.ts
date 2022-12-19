@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, Label, Scheduler, Vec3, RigidBody, RigidBody2D, Graphics, SpriteRenderer, BoxCollider2D, Vec2, PolygonCollider2D } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, Label, Scheduler, Vec3, RigidBody, RigidBody2D, Graphics, SpriteRenderer, BoxCollider2D, Vec2, PolygonCollider2D, UITransform, ERigidBody2DType } from 'cc';
 import { OwlController } from './OwlController';
 import { PopupLose } from './PopupLose';
 import { PopupWin } from './PopupWin';
@@ -60,11 +60,22 @@ export class GamePlay extends Component {
         const dogRigidBody = this.dog.getComponent(RigidBody2D)
         const graphic = this.drawing.getComponent(Graphics)
 
+        this.drawing.setPosition(new Vec3(0,0,0))
+        this.drawing.setRotation(0, 0, 0, 0)
+
         dogRigidBody.gravityScale = 0
         this.dog.angle = 0
         this.isGameRunning = false
 
+        const components = graphic.node.getComponents(PolygonCollider2D)
+        const rigidBody = graphic.node.getComponent(RigidBody2D)
+        rigidBody.type = ERigidBody2DType.Static
+
         graphic.clear()
+
+        // components.forEach(component => {
+        //     component.destroy()
+        // });
 
         this.resetListOwl()
 

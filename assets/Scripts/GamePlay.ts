@@ -1,4 +1,6 @@
-import { _decorator, Component, Node, Prefab, instantiate, Label, Scheduler, Vec3, RigidBody, RigidBody2D, Graphics, SpriteRenderer, BoxCollider2D, Vec2, PolygonCollider2D, UITransform, ERigidBody2DType } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, Label, Scheduler, Vec3, RigidBody, RigidBody2D, Graphics, SpriteRenderer, BoxCollider2D, Vec2, PolygonCollider2D, UITransform, ERigidBody2DType, director } from 'cc';
+import { DrawingController } from './DrawingController';
+import { LoadMap } from './LoadMap';
 import { OwlController } from './OwlController';
 import { PopupLose } from './PopupLose';
 import { PopupWin } from './PopupWin';
@@ -17,35 +19,17 @@ export class GamePlay extends Component {
     @property (Node)
     private time: Node
     @property (Node)
+    private tiledMap: Node
+    @property (Node)
     private popupWin: Node
     @property (Node)
     private popupLose: Node
 
     private currentLevel: number = 1
-    private spawnSchedule: Function
-    private countdownSchedule: Function
 
     private listOwls = []
 
     public isGameRunning: boolean
-
-    private dataLevel = {
-        1: {
-            dogPosition: new Vec3(-365, -127.5, 0),
-            hivePosition: new Vec3(430, 270, 0),
-            time: 3
-        },
-        2: {
-            dogPosition: new Vec3(-365, -127.5, 0),
-            hivePosition: new Vec3(430, 270, 0),
-            time: 10
-        },
-        3: {
-            dogPosition: new Vec3(-365, -127.5, 0),
-            hivePosition: new Vec3(430, 270, 0),
-            time: 10
-        }
-    }
 
     public onLoad(): void{
         this.isGameRunning = true
@@ -54,33 +38,30 @@ export class GamePlay extends Component {
     }
 
     public loadDataLevel(): void{
-        const dogPosition = this.dataLevel[this.currentLevel].dogPosition
-        const hivePosition = this.dataLevel[this.currentLevel].hivePosition
-
+        const loadMap = this.tiledMap.getComponent(LoadMap)
         const dogRigidBody = this.dog.getComponent(RigidBody2D)
         const graphic = this.drawing.getComponent(Graphics)
+        let rigidBody = this.drawing.getComponent(RigidBody2D)
+
+        this.isGameRunning = false
+
+        this.dog.angle = 0
+        this.dog.setRotation(0, 0, 0, 0)
+        dogRigidBody.type = ERigidBody2DType.Static
+        dogRigidBody.type = ERigidBody2DType.Dynamic
+        dogRigidBody.gravityScale = 0
 
         this.drawing.setPosition(new Vec3(0,0,0))
         this.drawing.setRotation(0, 0, 0, 0)
 
-        dogRigidBody.gravityScale = 0
-        this.dog.angle = 0
-        this.isGameRunning = false
-
-        const components = graphic.node.getComponents(PolygonCollider2D)
-        const rigidBody = graphic.node.getComponent(RigidBody2D)
         rigidBody.type = ERigidBody2DType.Static
 
         graphic.clear()
 
-        // components.forEach(component => {
-        //     component.destroy()
-        // });
+        loadMap.loadLevel(this.currentLevel.toString())
+        loadMap.renderMap()
 
         this.resetListOwl()
-
-        this.dog.setPosition(dogPosition)
-        this.hive.setPosition(hivePosition)
     }
 
     public startGame(): void{
@@ -92,7 +73,7 @@ export class GamePlay extends Component {
     private resetListOwl(): void{
         this.listOwls.forEach(owl => {
             owl.destroy()
-        });
+        })
 
         this.listOwls = []
     }
@@ -101,7 +82,7 @@ export class GamePlay extends Component {
         this.isGameRunning = true
 
         const label = this.time.getComponent(Label)
-        let time = this.dataLevel[this.currentLevel].time
+        let time = 2
 
         this.schedule(() => {
             time -= 1
@@ -123,7 +104,7 @@ export class GamePlay extends Component {
 
     public setDogGravity(): void{
         const dogRigidBody = this.dog.getComponent(RigidBody2D)
-        dogRigidBody.gravityScale = 10
+        dogRigidBody.gravityScale = 1
         dogRigidBody.wakeUp()
     }
 
@@ -139,7 +120,7 @@ export class GamePlay extends Component {
 
             const owlController = owl.getComponent(OwlController)
 
-            owlController.setTargetPosition(this.dog.getPosition())
+            owlController.setTargetPosition(this.dog)
         }, 1)
     }
 }

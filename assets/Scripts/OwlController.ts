@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, tween, Collider2D, IPhysics2DContact, Contact2DType, Tween, UITransform } from 'cc';
+import { _decorator, Component, Node, Vec3, tween, Collider2D, IPhysics2DContact, Contact2DType, Tween, UITransform, easing, Vec2, RigidBody2D } from 'cc';
 import { AStar } from './AStar';
 import { GamePlay } from './GamePlay';
 const { ccclass, property } = _decorator;
@@ -8,6 +8,7 @@ export class OwlController extends Component {
     @property (Node)
     private owl: Node
 
+    private dog: Node
     private dogPosition: Vec3
 
     private tweenMove: Tween<Node>
@@ -19,9 +20,11 @@ export class OwlController extends Component {
         if(otherCollider.node.name != 'Owl'){
             this.tweenMove.stop()
 
-            const distance = this.aStart.manhattan(this.node.getPosition(), this.dogPosition)
+            // const distance = this.aStart.manhattan(this.node.getPosition(), this.dogPosition)
 
-            console.log('distance', distance)
+            // this.aStart.checkDirectionCanMove(this.node.getPosition())
+
+            // console.log('distance', distance)
         }
 
         this.scheduleOnce(this.resetTargetPosition, 0.5)
@@ -37,23 +40,58 @@ export class OwlController extends Component {
         }
     }
 
-    public setTargetPosition(dogPosition: Vec3): void{
-        this.dogPosition = dogPosition
+    public setTargetPosition(dog: Node): void{
+        this.dog = dog
+        this.dogPosition = this.dog.getPosition()
+
+        const startPoint = new Vec2(this.node.position.x, this.node.position.y)
+        const endPoint = new Vec2(this.dogPosition.x, this.dogPosition.y)
+        const offsetY = Math.floor(Math.random() * 300) - 150
+        const controlPoint = new Vec2((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2 + offsetY)
 
         let tweenDuration: number = 1.0;
+
         this.tweenMove = tween(this.node)
-        .to(tweenDuration, { position: new Vec3(dogPosition) }, {
-            easing: "linear",
+        .to(tweenDuration, { position: new Vec3(this.dogPosition) }, {
+            easing: easing.linear,
+            onUpdate: (target: Node, ratio: number) => {
+                target.setPosition(this.twoBezier(ratio, startPoint, controlPoint, endPoint))
+            }
         })
         .start()
     }
 
-    private resetTargetPosition(): void{
-        let tweenDuration: number = 1.0;
-        this.tweenMove = tween(this.node)
+    twoBezier = (t:number, p1: Vec2, cp: Vec2, p2: Vec2) => {
+        let x = (1 - t) * (1 - t) * p1.x + 2 * t * (1 - t) * cp.x + t * t * p2.x;
+        let y = (1 - t) * (1 - t) * p1.y + 2 * t * (1 - t) * cp.y + t * t * p2.y;
+        return new Vec3(x, y, 0);
+    };
 
+    private resetTargetPosition(): void{
+        this.dogPosition = this.dog.getPosition()
+
+        const startPoint = new Vec2(this.node.position.x, this.node.position.y)
+
+        const offsetX1 = Math.floor(Math.random() * 200) - 100
+        const offsetY1 = Math.floor(Math.random() * 160) - 80
+        const endPoint = new Vec2(this.dogPosition.x + offsetX1, this.dogPosition.y + offsetY1)
+
+        const offsetX = Math.floor(Math.random() * 100) - 50
+        const offsetY = Math.floor(Math.random() * 400) - 200
+        const controlPoint = new Vec2((startPoint.x + endPoint.x) / 2 + offsetX, (startPoint.y + endPoint.y) / 2 + offsetY)
+
+        let tweenDuration: number = 1.0;
+
+        this.tweenMove = tween(this.node)
         .to(tweenDuration, { position: new Vec3(this.dogPosition) }, {
-            easing: "linear",
+            easing: easing.linear,
+            onUpdate: (target: Node, ratio: number) => {
+                target.setPosition(this.twoBezier(ratio, startPoint, controlPoint, endPoint))
+            },
+            onComplete: () => {
+                console.log('Complete')
+                this.resetTargetPosition()
+            }
         })
         .start()
     }

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, director } from 'cc';
 import { GamePlay } from './GamePlay';
 const { ccclass, property } = _decorator;
 

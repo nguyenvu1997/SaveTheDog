@@ -1,4 +1,5 @@
-import { _decorator, Component, Node, tween, Vec3 } from 'cc';
+import { _decorator, Component, Node, tween, Vec3, director } from 'cc';
+import { GamePlay } from './GamePlay';
 const { ccclass, property } = _decorator;
 
 @ccclass('PopupWin')
@@ -9,9 +10,7 @@ export class PopupWin extends Component {
 
     onLoad() {
         this.button.on('click', function() {
-            console.log('Click Button Next Level')
-
-            const game = this.node.parent.getComponent('GamePlay')
+            const game = this.node.parent.getComponent(GamePlay)
 
             this.hidePopup()
 

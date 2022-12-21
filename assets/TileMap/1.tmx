@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="96" height="64" tilewidth="10" tileheight="10" infinite="0" nextlayerid="6" nextobjectid="12">
+ <objectgroup id="3" name="Dog">
+  <object id="5" x="110" y="490"/>
+ </objectgroup>
+ <objectgroup id="5" name="Obstacles">
+  <object id="9" x="600" y="202" width="161" height="18"/>
+  <object id="10" x="199" y="340" width="140" height="21"/>
+ </objectgroup>
+ <objectgroup id="4" name="Hive">
+  <object id="6" x="790" y="88"/>
+ </objectgroup>
+</map>

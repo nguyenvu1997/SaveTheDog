@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "Owl",
+    "_name": "Obstacle",
     "_objFlags": 0,
     "_native": "",
     "data": {
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Owl",
+    "_name": "Obstacle",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -23,27 +23,14 @@
       }
     ],
     "_active": true,
-    "_components": [
-      {
-        "__id__": 8
-      },
-      {
-        "__id__": 10
-      },
-      {
-        "__id__": 12
-      },
-      {
-        "__id__": 14
-      }
-    ],
+    "_components": [],
     "_prefab": {
-      "__id__": 16
+      "__id__": 8
     },
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -2.573,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -55,8 +42,8 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.5,
-      "y": 0.5,
+      "x": 1,
+      "y": 1,
       "z": 1
     },
     "_layer": 33554432,
@@ -70,7 +57,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "owl",
+    "_name": "obstacle",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -129,8 +116,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 128,
-      "height": 128
+      "width": 318,
+      "height": 85
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -141,7 +128,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "c4jxLi2b9BRpJ/rEr9IYK5"
+    "fileId": "1cKnip9X5MVqeeheDvFHYv"
   },
   {
     "__type__": "cc.Sprite",
@@ -165,12 +152,12 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "8da1e90f-f2fe-4cc7-8c9e-961d55d0ee8d@f9941",
+      "__uuid__": "2f1bba87-a9cb-433b-a3d4-5523bb040367@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
     "_fillType": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -185,7 +172,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "07Iz2Ui7FLIJULxK+6VGAk"
+    "fileId": "cdOcAkaaRGwqQKWdMm0hfT"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -195,116 +182,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "6b0V0nPylAxbEYXWgbQbYT"
-  },
-  {
-    "__type__": "cc.UITransform",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 9
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 100,
-      "height": 100
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "b18/0N169O3pEvw5lNChI5"
-  },
-  {
-    "__type__": "cc.CircleCollider2D",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 11
-    },
-    "tag": 0,
-    "_group": 8,
-    "_density": 0.1,
-    "_sensor": false,
-    "_friction": 0.1,
-    "_restitution": 1,
-    "_offset": {
-      "__type__": "cc.Vec2",
-      "x": 0.4,
-      "y": -2.200000000000001
-    },
-    "_radius": 64,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "f5UkaYh6tK3bfBtVjCddWX"
-  },
-  {
-    "__type__": "1b17c8bXuBIAorUpYN3xw9M",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 13
-    },
-    "owl": {
-      "__id__": 1
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "a9MyokYO5Lkb6E1MRMe5uM"
-  },
-  {
-    "__type__": "cc.RigidBody2D",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 15
-    },
-    "enabledContactListener": true,
-    "bullet": false,
-    "awakeOnLoad": true,
-    "_group": 8,
-    "_type": 2,
-    "_allowSleep": true,
-    "_gravityScale": 0,
-    "_linearDamping": 0,
-    "_angularDamping": 0,
-    "_linearVelocity": {
-      "__type__": "cc.Vec2",
-      "x": 5,
-      "y": 5
-    },
-    "_angularVelocity": 0,
-    "_fixedRotation": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "17hCr8myRNhY+gVvtI0SeZ"
+    "fileId": "aeK0rqhuhGiLrRBcDTsSjy"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -314,6 +192,6 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "75gD2nbxpF67PbxOFhVXit"
+    "fileId": "b3C45VXi5EU5kHWBwPVH1M"
   }
 ]

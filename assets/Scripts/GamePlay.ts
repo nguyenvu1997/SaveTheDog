@@ -43,12 +43,19 @@ export class GamePlay extends Component {
         const graphic = this.drawing.getComponent(Graphics)
         let rigidBody = this.drawing.getComponent(RigidBody2D)
 
+        const dogNormal = this.dog.getChildByName('dog-normal')
+        const dogStung = this.dog.getChildByName('dog-stung')
+        dogNormal.active = true
+        dogStung.active = false
+
+        const label = this.time.getComponent(Label)
+        label.string = '0'
+
         this.isGameRunning = false
 
         this.dog.angle = 0
         this.dog.setRotation(0, 0, 0, 0)
         dogRigidBody.type = ERigidBody2DType.Static
-        dogRigidBody.type = ERigidBody2DType.Dynamic
         dogRigidBody.gravityScale = 0
 
         this.drawing.setPosition(new Vec3(0,0,0))
@@ -68,11 +75,12 @@ export class GamePlay extends Component {
         this.isGameRunning = false
         this.dog.active = true
         this.hive.active = true
+
     }
 
     private resetListOwl(): void{
         this.listOwls.forEach(owl => {
-            owl.destroy()
+            if(owl) owl.destroy()
         })
 
         this.listOwls = []
@@ -82,7 +90,7 @@ export class GamePlay extends Component {
         this.isGameRunning = true
 
         const label = this.time.getComponent(Label)
-        let time = 2
+        let time = 10
 
         this.schedule(() => {
             time -= 1
@@ -90,6 +98,8 @@ export class GamePlay extends Component {
 
             if(time == 0) {
                 this.unscheduleAllCallbacks()
+
+                this.resetListOwl()
 
                 this.popupWin.getComponent(PopupWin).showPopup()
             }
@@ -105,6 +115,7 @@ export class GamePlay extends Component {
     public setDogGravity(): void{
         const dogRigidBody = this.dog.getComponent(RigidBody2D)
         dogRigidBody.gravityScale = 1
+        dogRigidBody.type = ERigidBody2DType.Dynamic
         dogRigidBody.wakeUp()
     }
 
@@ -116,7 +127,7 @@ export class GamePlay extends Component {
 
             owl.parent = this.node
 
-            owl.setPosition(this.hive.getPosition())
+            owl.setPosition(this.hive.getPosition().x + 5, this.hive.getPosition().y - 20, 0)
 
             const owlController = owl.getComponent(OwlController)
 

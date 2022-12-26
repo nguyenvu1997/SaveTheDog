@@ -7,10 +7,12 @@ export class PopupWin extends Component {
 
     @property (Node)
     button: Node
+    @property (Node)
+    gamePlay: Node
 
     onLoad() {
         this.button.on('click', function() {
-            const game = this.node.parent.getComponent(GamePlay)
+            const game = this.gamePlay.getComponent(GamePlay)
 
             this.hidePopup()
 

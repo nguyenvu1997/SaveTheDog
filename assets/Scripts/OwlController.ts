@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, tween, Collider2D, IPhysics2DContact, Contact2DType, Tween, UITransform, easing, Vec2, RigidBody2D } from 'cc';
+import { _decorator, Component, Node, Vec3, tween, Collider2D, IPhysics2DContact, Contact2DType, Tween, UITransform, easing, Vec2, RigidBody2D, Animation } from 'cc';
 import { AStar } from './AStar';
 import { GamePlay } from './GamePlay';
 const { ccclass, property } = _decorator;
@@ -17,14 +17,27 @@ export class OwlController extends Component {
     private onBeginContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         // console.log('onBeginContact', otherCollider.node.name, otherCollider.node.position)
 
+        if(otherCollider.node.name == 'Dog'){
+            const dogNormal = this.dog.getChildByName('dog-normal')
+            const dogStung = this.dog.getChildByName('dog-stung')
+            dogNormal.active = false
+            dogStung.active = true
+
+            this.tweenMove.stop()
+
+            const game = this.node.parent.getComponent(GamePlay)
+            game.showPopupLose()
+
+            return
+        }
+
         if(otherCollider.node.name != 'Owl'){
             this.tweenMove.stop()
 
-            // const distance = this.aStart.manhattan(this.node.getPosition(), this.dogPosition)
-
-            // this.aStart.checkDirectionCanMove(this.node.getPosition())
-
-            // console.log('distance', distance)
+            if(otherCollider.node.name == 'Drawing'){
+                const rigidBody2D = otherCollider.node.getComponent(RigidBody2D)
+                rigidBody2D.applyAngularImpulse(20, true)
+            }
         }
 
         this.scheduleOnce(this.resetTargetPosition, 0.5)
@@ -38,6 +51,9 @@ export class OwlController extends Component {
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this)
         }
+
+        const animation = this.node.getComponent(Animation)
+        animation.play('bee_fly')
     }
 
     public setTargetPosition(dog: Node): void{

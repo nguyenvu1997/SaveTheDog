@@ -57,43 +57,22 @@ export class DrawingController extends Component {
 
             if(this.isCollider) return
 
-            // this.aStart.checkDirectionCanMove(new Vec3(event.getUILocation().x, event.getUILocation().y, 0), this.ex1, this.ex2)
-
             const startPoint = new Vec2(this.lastPos.x, this.lastPos.y)
             const endPoint = new Vec2(event.getUILocation().x, event.getUILocation().y)
 
-            const distance = Vec2.distance(startPoint, endPoint)
-
-            if(distance < 20){
-                return
-            }
-
             const isCollider = this.aStart.checkRay(endPoint, startPoint)
 
-            console.log('isCollider', isCollider)
+            if(isCollider) return
 
-            if(isCollider) {
-                return
-            }
+            if(this.aStart.checkPoint(endPoint)) return
+
+            if(startPoint.x == endPoint.x && startPoint.y == endPoint.y) return
             
-            graphic.moveTo(this.lastPos.x - width/2, this.lastPos.y - height/2);
-            graphic.lineTo(event.getUILocation().x - width/2, event.getUILocation().y - height/2);
+            graphic.moveTo(startPoint.x - width/2, startPoint.y - height/2);
+            graphic.lineTo(endPoint.x - width/2, endPoint.y - height/2);
             graphic.stroke();
 
-            if( this.lastPos.x == event.getUILocation().x && this.lastPos.y == event.getUILocation().y) {
-                return
-            }
-
-            const listPoint = [ new Vec2(this.lastPos.x - width/2 - 2.5, this.lastPos.y - height/2 - 2.5),
-                                new Vec2(event.getUILocation().x - width/2 - 2.5, event.getUILocation().y - height/2 - 2.5),
-                                new Vec2(event.getUILocation().x - width/2 + 2.5, event.getUILocation().y - height/2 + 2.5),
-                                new Vec2(this.lastPos.x - width/2 + 2.5, this.lastPos.y - height/2 + 2.5)]
-
-            const collider = this.node.addComponent(PolygonCollider2D)
-            collider.group = 2
-
-            collider.points = listPoint 
-            collider.apply()
+            this.createPolygon(startPoint,endPoint,width,height)
 
             this.lastPos = event.getUILocation();
         }, this);
@@ -110,5 +89,22 @@ export class DrawingController extends Component {
             game.spawnOwls()
             game.setDogGravity()
         }, this)
+    }
+
+    private createPolygon(startPoint: Vec2, endPoint: Vec2, width: number, height: number): void{
+        const vec = new Vec2(endPoint.x - startPoint.x, endPoint.y - startPoint.y).normalize()
+        vec.rotate(Math.PI / 2)
+
+        const offset = 2.5
+
+        const listPoint = [ new Vec2(startPoint.x - width / 2 - vec.x * offset, startPoint.y - height / 2 - vec.y * offset),
+                            new Vec2(endPoint.x - width / 2 - vec.x * offset, endPoint.y - height / 2 - vec.y * offset),
+                            new Vec2(endPoint.x - width / 2 + vec.x * offset, endPoint.y - height / 2 + vec.y * offset),
+                            new Vec2(startPoint.x - width / 2 + vec.x * offset, startPoint.y - height / 2 + vec.y * offset)]
+
+        const collider = this.node.addComponent(PolygonCollider2D)
+        collider.group = 2
+        collider.points = listPoint 
+        collider.apply()
     }
 }

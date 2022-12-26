@@ -6,12 +6,12 @@ export class PopupLose extends Component {
 
     @property (Node)
     button: Node
+    @property (Node)
+    gamePlay: Node
 
     onLoad() {
         this.button.on('click', function() {
-            console.log('Click Button Restart')
-
-            const game = this.node.parent.getComponent('GamePlay')
+            const game = this.gamePlay.getComponent('GamePlay')
 
             this.hidePopup()
 

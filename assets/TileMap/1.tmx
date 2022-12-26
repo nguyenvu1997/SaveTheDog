@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="96" height="64" tilewidth="10" tileheight="10" infinite="0" nextlayerid="6" nextobjectid="12">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="96" height="64" tilewidth="10" tileheight="10" infinite="0" nextlayerid="6" nextobjectid="13">
  <objectgroup id="3" name="Dog">
-  <object id="5" x="110" y="490"/>
+  <object id="5" x="110" y="451"/>
  </objectgroup>
  <objectgroup id="5" name="Obstacles">
   <object id="9" x="600" y="202" width="161" height="18"/>
